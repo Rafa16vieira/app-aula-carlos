@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "aula-teste",
+    "slug": "aula-teste",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.rafa16vieira.aulateste",
+      "runtimeVersion": "1.0.0"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7c8518d0-c744-46bd-8352-1fc35b14b4ef"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/7c8518d0-c744-46bd-8352-1fc35b14b4ef"
+    }
+  }
+}
