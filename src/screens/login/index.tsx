@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Vibration, Image } from 'react-native';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup'
@@ -7,13 +7,17 @@ import { color } from '@rneui/base';
 export function Login() {
 
   const [ resultado, setResultado ] = useState<null|'logado'|'falhou'>(null);
+
+  const tempo = 1000;
   
   const handleLogin = async ({email, senha}:any) => {
     await new Promise(resolve => setTimeout(resolve, 3000))
     if (email.trim() == 'teste@teste.com' && senha.trim() == '123456') 
       setResultado('logado')
-    else
+    else{
+      Vibration.vibrate([10 * tempo]),
       setResultado('falhou')
+    }
   }
 
 
@@ -44,7 +48,7 @@ export function Login() {
         initialValues={{email: '', senha: ''}}
         validationSchema={Yup.object().shape({
           email: Yup.string().required('Informe o email').email('E-mail não válido'),
-          senha: Yup.string().required('Informe a senha').min(6, 'A senha precisa ter 6 caracteres')
+          senha: Yup.string().required('Informe a senha').min(6, 'A senha precisa ter ao menos 6 caracteres')
         })}
         onSubmit={handleLogin}>
         {({errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting}) => (
