@@ -1,33 +1,32 @@
 import { NavigationContainer } from '@react-navigation/native';
-import {  createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Login } from '../screens/login';
-import { História } from '../screens/historia';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FavoritosNavegacao } from './favoritos';
-const Tab = createBottomTabNavigator();
+import { createStackNavigator } from '@react-navigation/stack';
+import ConfigScreen from '../screens/config';
+
+import HomeScreen from '../screens/home';
+import LoginScreen from '../screens/login';
+import LojaScreen from '../screens/loja';
+import CompraPikaScreen from '../screens/compra';
+
+export type StackParams = {
+    login: undefined,
+    home: undefined,
+    config: undefined,
+    loja: undefined,
+    comprapika: undefined,
+}
+
+const Stack = createStackNavigator<StackParams>();
 
 export function NavegacaoPrincipal() {
     return (
         <NavigationContainer>
-            <Tab.Navigator screenOptions={{
-                headerShown: false,
-                tabBarActiveBackgroundColor: '#000000',
-                tabBarInactiveBackgroundColor: '#494848',
-                tabBarActiveTintColor: '#494848'
-            }}>
-                <Tab.Screen name="tela1" component={História} options={{
-                    tabBarLabel:'Início',
-                    tabBarIcon:(btn)=> <MaterialIcons name="home" size={30} color={(btn.focused ? '#494848' : '#000000')} />
-                }}/>
-                <Tab.Screen name="tela2" component={FavoritosNavegacao} options={{
-                    tabBarLabel:'Favoritos',
-                    tabBarIcon:(btn)=> <MaterialIcons name="star" size={30} color={(btn.focused ? '#494848' : '#000000')}  />
-                }}/>
-                <Tab.Screen name="tela3" component={Login} options={{
-                    tabBarLabel:'Ajustes',
-                    tabBarIcon:(btn)=> <MaterialIcons name="settings" size={30} color={(btn.focused ? '#494848' : '#000000')}  />
-                }}/>
-            </Tab.Navigator>
+            <Stack.Navigator>
+                <Stack.Screen name="login" component={LoginScreen} />
+                <Stack.Screen name="home" component={HomeScreen} />
+                <Stack.Screen name="config" component={ConfigScreen} options={{title: 'Configurações'}}/>
+                <Stack.Screen name="loja" component={LojaScreen} options={{title: 'Loja'}}/>
+                <Stack.Screen name="comprapika" component={CompraPikaScreen} options={{title: 'Compra'}}/>
+            </Stack.Navigator>
         </NavigationContainer>
     )
 }

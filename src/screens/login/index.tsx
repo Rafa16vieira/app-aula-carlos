@@ -1,79 +1,70 @@
-import { View, Text, TextInput, StyleSheet, Button, Vibration, Image } from 'react-native';
-import { Formik } from 'formik';
-import { useState } from 'react';
-import * as Yup from 'yup'
-import { color } from '@rneui/base';
-
-export function Login() {
-
-  const [ resultado, setResultado ] = useState<null|'logado'|'falhou'>(null);
-
-  const tempo = 1000;
-  
-  const handleLogin = async ({email, senha}:any) => {
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    if (email.trim() == 'teste@teste.com' && senha.trim() == '123456') 
-      setResultado('logado')
-    else{
-      Vibration.vibrate([10 * tempo]),
-      setResultado('falhou')
-    }
-  }
-
-
-  const styles = StyleSheet.create({
-    container: {
-      padding: 20,
-      flex: 1,
-      justifyContent: 'center'
-    },
-    textInput: {
-      backgroundColor: '#b4b4b4',
-      padding: 2,
-      marginVertical: 5
-    },
-    fail: {
-      textAlign:'center',
-      color: 'red'
-    },
-    success: {
-      textAlign:'center',
-      color: 'green'
-    }
-  });
-
-  return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#909090'}}>
-    <View style={styles.container}>
-      <Formik
-        initialValues={{email: '', senha: ''}}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().required('Informe o email').email('E-mail não válido'),
-          senha: Yup.string().required('Informe a senha').min(6, 'A senha precisa ter ao menos 6 caracteres')
-        })}
-        onSubmit={handleLogin}>
-        {({errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting}) => (
-          <>
-            <Text>Login</Text>
-            <TextInput  placeholder='Digite seu email' onBlur={handleBlur('email')} style={styles.textInput} onChangeText={handleChange('email')}/>
-            { errors.email && touched.email && <Text style={styles.fail}>{errors.email}</Text>}
-            <TextInput  placeholder='Digite sua senha' onBlur={handleBlur('email')} style={styles.textInput} onChangeText={handleChange('senha')} secureTextEntry/>
-            { errors.senha && touched.senha && <Text style={styles.fail}>{errors.senha}</Text>}
-            <Button title="Logar" onPress={() => handleSubmit()} disabled={isSubmitting} color={'#000'} />
-
-            { resultado == 'logado' && <Text style={styles.success}>Logado com sucesso</Text>}
-            { resultado == 'falhou' && <Text style={styles.fail}>Email ou senha incorreto</Text>}
-          </>
-        )}
-      </Formik>
-    </View>  
-  </View>)
+import { useState } from "react";
+import { StyleSheet, View, Text, TextInput, Button, Alert } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParams } from "../../navigation";
+import { useAutenticacaoContext } from "../../providers/autenticacao";
+//import { doc, setDoc, getDocs, query, where, collection, getFirestore } from '@firebase/firestore';
 
 
 
+export default function LoginScreen() {
+
+
+    //const db = getFirestore();
+
+
+    
+    const [ email, setEmail ] = useState('');
+    const [ senha, setSenha ] = useState('');
+    const navigation = useNavigation<StackNavigationProp<StackParams, "login">>();
+    const  { setUsuario } = useAutenticacaoContext();
+
+    const handleLogin = async () => {
+
+        //const q = query(collection(db, 'usuarios'), where('email', '==', {email}), where('senha', '==', {senha}));
+        //getDocs(q).then(resultados => {
+          //  resultados.forEach(doc => {
+            //    setUsuario(email);
+              //  navigation.reset({index: 0, routes: [{name: 'home'}]});
+            //})
+            //})
+            if (email == 'teste@teste.com' && senha == '123456') {
+                setUsuario(email);
+                //Manda para outra tela sem botão de voltar
+                navigation.reset({index: 0, routes: [{name: 'home'}]}); 
+            } else
+                Alert.alert('Erro', 'Login ou senha incorreta!')
+        }
+
+    return (<View style={styles.container}>
+        <Text style={styles.header}>Login</Text>
+        <TextInput onChangeText={setEmail} style={[styles.input, styles.borderBottom]} placeholder="EMAIL: (teste@teste.com)"/>
+        <TextInput onChangeText={setSenha}  style={styles.input} secureTextEntry placeholder="SENHA: (123456)"/>
+        <Button title="Logar" color="#2B1700" onPress={handleLogin}/>
+    </View>)
 }
 
-
-
-
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        padding: 20,
+        backgroundColor: '#ffffa1'
+    },
+    header: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#2B1700'
+    },
+    input: {
+        backgroundColor: '#fefeda',
+        padding: 5
+    },
+    borderBottom: {
+        borderBottomColor: '#2B1700',
+        borderBottomWidth: 2
+    }
+});
 
