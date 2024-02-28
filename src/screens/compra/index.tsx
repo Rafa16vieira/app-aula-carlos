@@ -18,8 +18,8 @@ export default function CompraPikaScreen() {
 
                 <View style={{ flexDirection: 'column', justifyContent: 'center'}}>
                     <Image source={require('../../../assets/attackingpikachu.jpeg')} style={[{borderRadius: 20}, styles.image]}/>
-                    <Text style={{ fontSize: 20, color: "Brunette"}}>Action figure do pikachu em posição de ataque</Text>
-                    <Text style={{ fontSize: 18, color: "ffffa1"}}>R$ 499,90</Text>                
+                    <Text style={{ fontSize: 20, color: "#664238"}}>Action figure do pikachu em posição de ataque</Text>
+                    <Text style={{ fontSize: 18, color: "#ffffa1"}}>R$ 499,90</Text>                
                 </View>
                 <View style={{flexDirection: 'column', justifyContent: 'center'}}>
                     <Text style={{ fontSize: 15, color: "tomato"}}>Últimas unidades disponíveis.</Text>
